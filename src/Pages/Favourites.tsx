@@ -1,7 +1,32 @@
+import { useState } from 'react';
 import { useFavorites } from '../hooks/FavouritesContext';
+import { useNavigate } from 'react-router-dom';
+import ConfirmationModal from '../components/ConfirmationModal'; // Adjust the import path as necessary
+import ToastNotification, { showToast } from '../components/ToastNotification'; // Adjust the import path as necessary
 
 const Favourites = () => {
-  const { favoriteBooks } = useFavorites();
+  const { favoriteBooks, deleteFavorite } = useFavorites();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [bookToDelete, setBookToDelete] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const handleDelete = (title: string) => {
+    setBookToDelete(title);
+    setIsModalOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (bookToDelete) {
+      deleteFavorite(bookToDelete);
+      showToast('Book deleted successfully');
+      setBookToDelete(null);
+      setIsModalOpen(false);
+    }
+  };
+
+  const handleEdit = (title: string) => {
+    navigate(`/edit/${title}`);
+  };
 
   if (favoriteBooks.length === 0) return <p>No favourites added yet</p>;
 
@@ -55,6 +80,8 @@ const Favourites = () => {
                       </div>
                     </div>
                   </td>
+                  <td>{book.price} GBP</td>
+
                   <td>
                     <div className="flex items-center">
                       {[...Array(book.rating)].map((_, i) => (
@@ -69,12 +96,21 @@ const Favourites = () => {
                       ))}
                     </div>
                   </td>
-                  <td>{book.price} GBP</td>
                   <td>
-                    <button className="text-[#5B5B5B]  hover:underline mr-4">Edit</button>
+                    <button
+                      className="text-[#5B5B5B] hover:underline mr-4"
+                      onClick={() => handleEdit(book.title)}
+                    >
+                      Edit
+                    </button>
                   </td>
                   <td>
-                    <button className="text-[#5B5B5B] hover:underline mr-4">Delete</button>
+                    <button
+                      className="text-[#5B5B5B] hover:underline mr-4"
+                      onClick={() => handleDelete(book.title)}
+                    >
+                      Delete
+                    </button>
                   </td>
                   <td>
                     <svg
@@ -98,6 +134,13 @@ const Favourites = () => {
           </table>
         </div>
       </div>
+      <ConfirmationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={confirmDelete}
+        message="Are you sure you want to delete this book?"
+      />
+      <ToastNotification />
     </div>
   );
 };

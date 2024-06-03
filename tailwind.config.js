@@ -9,6 +9,10 @@ module.exports = {
       fontFamily: {
         sans: ['Lato', 'sans-serif'],
       },
+      colors: {
+        gradientStart: '#679CF6',
+        gradientEnd: '#4072EE',
+      },
   },
   },
   plugins: [require("daisyui")],

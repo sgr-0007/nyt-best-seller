@@ -1,10 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Dashboard from './components/Dashboard';
+import Dashboard from './Pages/Dashboard';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
-import BestSellers from './components/BestSellers';
-import FavouritesPage from './components/Favourites'; 
+import BestSellers from './Pages/BestSellers';
+import FavouritesPage from './Pages/Favourites'; 
 import { FavoritesProvider } from './hooks/FavouritesContext'; 
+import EditFavourites from './Pages/EditFavourites';
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
               <Routes>
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/favourites" element={<FavouritesPage />} />
+                <Route path="/edit/:title" element={<EditFavourites />} />
                 <Route path="/bestsellers" element={<BestSellers />} />
               </Routes>
             </div>

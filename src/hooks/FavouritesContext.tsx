@@ -13,6 +13,8 @@ interface FavoritesContextProps {
   favorites: Set<string>;
   favoriteBooks: Book[];
   toggleFavorite: (book: Book) => void;
+  deleteFavorite: (title: string) => void;
+  updateFavorite: (book : Book) => void;
 }
 
 const FavoritesContext = createContext<FavoritesContextProps | undefined>(undefined);
@@ -41,8 +43,25 @@ export const FavoritesProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
+  const updateFavorite = (book : Book) => {
+    setFavoriteBooks((prevBooks) => 
+      prevBooks.map((b) => 
+        b.title === book.title ? { ...b, ...book } : b
+      )
+    );
+  };
+
+  const deleteFavorite = (title: string) => {
+    setFavorites((prev) => {
+      const newFavorites = new Set(prev);
+      newFavorites.delete(title);
+      setFavoriteBooks((prevBooks) => prevBooks.filter((b) => b.title !== title));
+      return newFavorites;
+    });
+  };
+
   return (
-    <FavoritesContext.Provider value={{ favorites, favoriteBooks, toggleFavorite }}>
+    <FavoritesContext.Provider value={{ favorites, favoriteBooks, toggleFavorite, deleteFavorite, updateFavorite }}>
       {children}
     </FavoritesContext.Provider>
   );
