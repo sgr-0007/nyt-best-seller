@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useFavorites } from '../hooks/FavouritesContext';
+import Nodata from '../components/Nodata'; // Adjust the import path as necessary
 
 interface Book {
   title: string;
@@ -47,7 +48,6 @@ const Dashboard = () => {
   }, []);
 
   const handleSearch = () => {
-    console.log(books);
     const filtered = books.filter((book) =>
       book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       book.author.toLowerCase().includes(searchQuery.toLowerCase())
@@ -97,11 +97,15 @@ const Dashboard = () => {
           <h2 className="text-2xl font-bold mb-3 hover:underline cursor-pointer">Favourites</h2>
         </Link>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-          {favoriteBooks.slice(0, 3).map((book) => (
-            <div key={book.title} className="bg-white rounded-md shadow-md overflow-hidden">
-              <img src={book.book_image} alt={book.title} className="w-full h-[204px] object-cover" />
-            </div>
-          ))}
+          {favoriteBooks.length === 0 ? (
+            <p>No favorites to show</p>
+          ) : (
+            favoriteBooks.slice(0, 3).map((book) => (
+              <div key={book.title} className="bg-white rounded-md shadow-md overflow-hidden">
+                <img src={book.book_image} alt={book.title} className="w-full h-[204px] object-cover" />
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>

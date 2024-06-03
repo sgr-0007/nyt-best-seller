@@ -3,6 +3,7 @@ import { useFavorites } from '../hooks/FavouritesContext';
 import { useNavigate } from 'react-router-dom';
 import ConfirmationModal from '../components/ConfirmationModal'; // Adjust the import path as necessary
 import ToastNotification, { showToast } from '../components/ToastNotification'; // Adjust the import path as necessary
+import Nodata from '../components/Nodata';
 
 const Favourites = () => {
   const { favoriteBooks, deleteFavorite } = useFavorites();
@@ -43,7 +44,7 @@ const Favourites = () => {
     setFilteredBooks(filtered);
   };
 
-  if (favoriteBooks.length === 0) return <p>No favourites added yet</p>;
+  if (favoriteBooks.length === 0) return <Nodata message='No Favorites to Show' />;
 
   return (
     <div className="bg-[#E9EDF6] w-full p-8">
