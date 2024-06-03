@@ -28,7 +28,7 @@ const Dashboard = () => {
           setFilteredBooks(parsedBooks);
         } else {
           const response = await axios.get(
-            `https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json?api-key=LeUEpSPmBC9zoUbUowdZGdlNCrioADwL`
+            `https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json?api-key=${import.meta.env.VITE_NYT_API_KEY}`
           );
           const fetchedBooks = response.data.results.books;
           const bestsellers = fetchedBooks.slice(0, 3); // Limit to 3 books for bestsellers
