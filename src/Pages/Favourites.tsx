@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useFavorites } from '../hooks/FavouritesContext';
 import { useNavigate } from 'react-router-dom';
-import ConfirmationModal from '../components/ConfirmationModal'; // Adjust the import path as necessary
-import ToastNotification, { showToast } from '../components/ToastNotification'; // Adjust the import path as necessary
+import ConfirmationModal from '../components/ConfirmationModal'; 
+import ToastNotification, { showToast } from '../components/ToastNotification'; 
 import Nodata from '../components/Nodata';
 
 const Favourites = () => {
@@ -104,6 +104,7 @@ const Favourites = () => {
                   <td>{book.price} GBP</td>
 
                   <td>
+                    {/* Display rating as stars */}
                     <div className="flex items-center">
                       {[...Array(book.rating)].map((_, i) => (
                         <svg xmlns="http://www.w3.org/2000/svg" key={i} fill="currentColor" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="text-yellow-500 h-6 w-6">

@@ -29,7 +29,7 @@ const BestSellers = () => {
           setFilteredBooks(parsedBooks);
         } else {
           const response = await axios.get(
-            `https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json?api-key=LeUEpSPmBC9zoUbUowdZGdlNCrioADwL`
+            `https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json?api-key=${import.meta.env.VITE_NYT_API_KEY}`
           );
           const fetchedBooks = response.data.results.books.map((book: any) => ({
             title: book.title,

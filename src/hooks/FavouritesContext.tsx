@@ -14,15 +14,18 @@ interface FavoritesContextProps {
   favoriteBooks: Book[];
   toggleFavorite: (book: Book) => void;
   deleteFavorite: (title: string) => void;
-  updateFavorite: (book : Book) => void;
+  updateFavorite: (book: Book) => void;
 }
 
+// Favourites context for handling state and actions related to favourites
 const FavoritesContext = createContext<FavoritesContextProps | undefined>(undefined);
 
+// Provide the context
 export const FavoritesProvider = ({ children }: { children: ReactNode }) => {
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [favoriteBooks, setFavoriteBooks] = useState<Book[]>([]);
 
+  // Toggle favorite status of a book
   const toggleFavorite = (book: Book) => {
     setFavorites((prev) => {
       const newFavorites = new Set(prev);
@@ -43,7 +46,8 @@ export const FavoritesProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const updateFavorite = (book : Book) => {
+  // Update favorite book details
+  const updateFavorite = (book: Book) => {
     setFavoriteBooks((prevBooks) => 
       prevBooks.map((b) => 
         b.title === book.title ? { ...b, ...book } : b
@@ -51,6 +55,7 @@ export const FavoritesProvider = ({ children }: { children: ReactNode }) => {
     );
   };
 
+  // Delete a favorite book
   const deleteFavorite = (title: string) => {
     setFavorites((prev) => {
       const newFavorites = new Set(prev);
@@ -67,6 +72,7 @@ export const FavoritesProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+// Hook to use the Favorites context
 export const useFavorites = () => {
   const context = useContext(FavoritesContext);
   if (!context) {

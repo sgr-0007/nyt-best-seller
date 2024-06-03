@@ -3,8 +3,9 @@ import { Link, useLocation } from 'react-router-dom';
 
 const Sidebar = () => {
   const location = useLocation();
-  const [activeLink, setActiveLink] = useState(location.pathname);
+  const [activeLink, setActiveLink] = useState(location.pathname); // Set the initial active link to the current path
 
+   // Function to handle link click and update the active link state
   const handleLinkClick = (path: string) => {
     setActiveLink(path);
   };
@@ -13,6 +14,7 @@ const Sidebar = () => {
   const inactiveClass = "text-gray-400";
 
   return (
+    // Sidebar container with fixed positioning
     <div className="top-0 left-0 w-[96px] h-full bg-gray-900 text-white flex flex-col items-center py-4">
       <div className="flex flex-col items-center space-y-6 flex-1 justify-center">
         <Link to="/" onClick={() => handleLinkClick('/')}>
