@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useFavorites } from '../hooks/FavouritesContext';
-import Nodata from '../components/Nodata'; // Adjust the import path as necessary
 
 interface Book {
   title: string;
@@ -84,7 +83,7 @@ const Dashboard = () => {
           </div>
         </div>
         <Link to="/bestsellers">
-          <h2 className="text-2xl font-bold mb-3 hover:underline cursor-pointer">New York Times Bestsellers</h2>
+          <h2 className="sm:text-xl md:text-2xl lg:text-3xl font-bold mb-3 hover:underline cursor-pointer">New York Times Bestsellers</h2>
         </Link>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           {filteredBooks.map((book) => (
@@ -93,9 +92,7 @@ const Dashboard = () => {
             </div>
           ))}
         </div>
-        <Link to="/favourites">
-          <h2 className="text-2xl font-bold mb-3 hover:underline cursor-pointer">Favourites</h2>
-        </Link>
+          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-3">Favourites</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
           {favoriteBooks.length === 0 ? (
             <p>No favorites to show</p>

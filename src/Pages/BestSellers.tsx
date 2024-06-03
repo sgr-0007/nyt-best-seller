@@ -90,7 +90,7 @@ const BestSellers = () => {
             </button>
           </div>
         </div>
-        <h2 className="text-2xl font-bold mb-4">New York Times Bestsellers</h2>
+        <h2 className="sm:text-xl md:text-2xl lg:text-3xl  font-bold mb-4">New York Times Bestsellers</h2>
         <div className="bg-white rounded-lg shadow-md mb-8 overflow-x-auto">
           <table className="table w-full">
             <tbody>

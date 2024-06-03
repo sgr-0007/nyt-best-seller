@@ -49,7 +49,7 @@ const Favourites = () => {
   return (
     <div className="bg-[#E9EDF6] w-full p-8">
       <div className="w-full max-w-7xl mx-auto">
-        <h2 className="text-2xl font-bold mb-4">Favourites</h2>
+        <h2 className="sm:text-xl md:text-2xl lg:text-3xl font-bold mb-4">Favourites</h2>
         <div className="mb-8">
           <div className="flex justify-between items-center">
             <div className="relative w-full flex">
