@@ -14,22 +14,27 @@ const Dashboard = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const { favoriteBooks } = useFavorites(); // Use favoriteBooks from context
+  const [searchQuery, setSearchQuery] = useState<string>(''); // State for search query
+  const [filteredBooks, setFilteredBooks] = useState<Book[]>([]); // State for filtered books
+  const { favoriteBooks } = useFavorites();
 
   useEffect(() => {
     const fetchBooks = async () => {
       try {
         const cachedBooks = localStorage.getItem('books');
         if (cachedBooks) {
+          const parsedBooks = JSON.parse(cachedBooks).slice(0, 3);
           setBooks(JSON.parse(cachedBooks));
+          setFilteredBooks(parsedBooks);
         } else {
           const response = await axios.get(
             `https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json?api-key=LeUEpSPmBC9zoUbUowdZGdlNCrioADwL`
           );
           const fetchedBooks = response.data.results.books;
           const bestsellers = fetchedBooks.slice(0, 3); // Limit to 3 books for bestsellers
-          setBooks(bestsellers);
-          localStorage.setItem('books', JSON.stringify(bestsellers));
+          setBooks(fetchedBooks);
+          setFilteredBooks(bestsellers);
+          localStorage.setItem('books', JSON.stringify(fetchedBooks));
         }
       } catch (error) {
         setError('Failed to fetch data');
@@ -40,6 +45,15 @@ const Dashboard = () => {
 
     fetchBooks();
   }, []);
+
+  const handleSearch = () => {
+    console.log(books);
+    const filtered = books.filter((book) =>
+      book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      book.author.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredBooks(filtered.slice(0, 3));
+  };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
@@ -57,9 +71,14 @@ const Dashboard = () => {
             <input
               type="text"
               placeholder="What books would you like to find?"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)} // Update search query state
               className="w-full pl-10 pr-4 py-2 rounded-l-full border-t border-b border-l border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
             />
-            <button className="px-6 py-2 rounded-r-full bg-[#93B4BC] text-white font-semibold">
+            <button 
+              className="px-6 py-2 rounded-r-full bg-[#93B4BC] text-white font-semibold"
+              onClick={handleSearch} // Trigger search on button click
+            >
               GO
             </button>
           </div>
@@ -68,7 +87,7 @@ const Dashboard = () => {
           <h2 className="text-2xl font-bold mb-3 hover:underline cursor-pointer">New York Times Bestsellers</h2>
         </Link>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          {books.map((book) => (
+          {filteredBooks.map((book) => (
             <div key={book.title} className="bg-white rounded-md shadow-md overflow-hidden">
               <img src={book.book_image} alt={book.title} className="w-full h-[204px] object-cover" />
             </div>

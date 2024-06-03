@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useFavorites } from '../hooks/FavouritesContext';
 import { useNavigate } from 'react-router-dom';
 import ConfirmationModal from '../components/ConfirmationModal'; // Adjust the import path as necessary
@@ -8,7 +8,13 @@ const Favourites = () => {
   const { favoriteBooks, deleteFavorite } = useFavorites();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [bookToDelete, setBookToDelete] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>(''); // State for search query
+  const [filteredBooks, setFilteredBooks] = useState(favoriteBooks); // State for filtered books
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setFilteredBooks(favoriteBooks);
+  }, [favoriteBooks]);
 
   const handleDelete = (title: string) => {
     setBookToDelete(title);
@@ -18,14 +24,23 @@ const Favourites = () => {
   const confirmDelete = () => {
     if (bookToDelete) {
       deleteFavorite(bookToDelete);
-      showToast('Book deleted successfully');
+      showToast('Book removed successfully');
       setBookToDelete(null);
       setIsModalOpen(false);
+      setFilteredBooks(favoriteBooks.filter((book) => book.title !== bookToDelete));
     }
   };
 
   const handleEdit = (title: string) => {
     navigate(`/edit/${title}`);
+  };
+
+  const handleSearch = () => {
+    const filtered = favoriteBooks.filter((book) =>
+      book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      book.author.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredBooks(filtered);
   };
 
   if (favoriteBooks.length === 0) return <p>No favourites added yet</p>;
@@ -45,9 +60,14 @@ const Favourites = () => {
               <input
                 type="text"
                 placeholder="Search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)} // Update search query state
                 className="w-full pl-10 pr-4 py-2 rounded-l-full border-t border-b border-l border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
               />
-              <button className="px-6 py-2 rounded-r-full bg-[#93B4BC] text-white font-semibold">
+              <button 
+                className="px-6 py-2 rounded-r-full bg-[#93B4BC] text-white font-semibold"
+                onClick={handleSearch} // Trigger search on button click
+              >
                 GO
               </button>
             </div>
@@ -56,7 +76,7 @@ const Favourites = () => {
         <div className="bg-white rounded-lg shadow-md overflow-x-auto">
           <table className="table w-full">
             <tbody>
-              {favoriteBooks.map((book) => (
+              {filteredBooks.map((book) => (
                 <tr key={book.title}>
                   <td>
                     <div className="flex items-center">
@@ -109,7 +129,7 @@ const Favourites = () => {
                       className="text-[#5B5B5B] hover:underline mr-4"
                       onClick={() => handleDelete(book.title)}
                     >
-                      Delete
+                      Remove
                     </button>
                   </td>
                   <td>
@@ -138,7 +158,7 @@ const Favourites = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onConfirm={confirmDelete}
-        message="Are you sure you want to delete this book?"
+        message="Are you sure you want to Remove this book from Favourites?"
       />
       <ToastNotification />
     </div>

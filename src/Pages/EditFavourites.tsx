@@ -80,9 +80,9 @@ const EditFavourites = () => {
                         UPDATE
                     </button>
                 </div>
-                <div className="mt-8">
+                <div className="mt-8">&larr; Return to: &nbsp;
                     <button onClick={() => navigate('/favourites')} className="text-[#93B4BC] hover:underline">
-                        &larr; Return to: Favourites
+                         Favourites
                     </button>
                 </div>
             </div>

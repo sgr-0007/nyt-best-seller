@@ -6,6 +6,7 @@ import BestSellers from './Pages/BestSellers';
 import FavouritesPage from './Pages/Favourites'; 
 import { FavoritesProvider } from './hooks/FavouritesContext'; 
 import EditFavourites from './Pages/EditFavourites';
+import Settings from './Pages/Settings';
 
 const App = () => {
   return (
@@ -21,6 +22,8 @@ const App = () => {
                 <Route path="/favourites" element={<FavouritesPage />} />
                 <Route path="/edit/:title" element={<EditFavourites />} />
                 <Route path="/bestsellers" element={<BestSellers />} />
+                <Route path="/settings" element={<Settings />} />
+        
               </Routes>
             </div>
           </div>

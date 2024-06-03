@@ -15,6 +15,8 @@ const BestSellers = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>(''); // State for search query
+  const [filteredBooks, setFilteredBooks] = useState<Book[]>([]); // State for filtered books
   const { favorites, toggleFavorite } = useFavorites();
 
   useEffect(() => {
@@ -22,8 +24,9 @@ const BestSellers = () => {
       try {
         const cachedBooks = localStorage.getItem('bestSellersBooks');
         if (cachedBooks) {
-          setBooks(JSON.parse(cachedBooks));
-          setLoading(false);
+          const parsedBooks = JSON.parse(cachedBooks);
+          setBooks(parsedBooks);
+          setFilteredBooks(parsedBooks);
         } else {
           const response = await axios.get(
             `https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json?api-key=LeUEpSPmBC9zoUbUowdZGdlNCrioADwL`
@@ -37,6 +40,7 @@ const BestSellers = () => {
             rating: Math.floor(Math.random() * 5) + 1,
           }));
           setBooks(fetchedBooks);
+          setFilteredBooks(fetchedBooks);
           // Cache the fetched books in localStorage
           localStorage.setItem('bestSellersBooks', JSON.stringify(fetchedBooks));
         }
@@ -49,6 +53,14 @@ const BestSellers = () => {
 
     fetchBooks();
   }, []);
+
+  const handleSearch = () => {
+    const filtered = books.filter((book) =>
+      book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      book.author.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredBooks(filtered);
+  };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
@@ -66,9 +78,14 @@ const BestSellers = () => {
             <input
               type="text"
               placeholder="Search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)} // Update search query state
               className="w-full pl-10 pr-4 py-2 rounded-l-full border-t border-b border-l border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
             />
-            <button className="px-6 py-2 rounded-r-full bg-[#93B4BC] text-white font-semibold">
+            <button 
+              className="px-6 py-2 rounded-r-full bg-[#93B4BC] text-white font-semibold"
+              onClick={handleSearch} // Trigger search on button click
+            >
               GO
             </button>
           </div>
@@ -77,7 +94,7 @@ const BestSellers = () => {
         <div className="bg-white rounded-lg shadow-md mb-8 overflow-x-auto">
           <table className="table w-full">
             <tbody>
-              {books.map((book) => (
+              {filteredBooks.map((book) => (
                 <tr key={book.title}>
                   <td>
                     <div className="flex items-center">

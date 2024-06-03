@@ -1,5 +1,4 @@
-import dp from '../assets/dp.png'; // Adjust the path as necessary
-
+import dp from "../assets/dp.png";
 const Header = () => {
   return (
     <div className=" w-full h-[80px] flex items-center bg-white">
