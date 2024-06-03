@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import { useFavorites } from '../hooks/FavouritesContext'; 
+import { useFavorites } from '../hooks/FavouritesContext';
 
 interface Book {
   title: string;
@@ -47,12 +45,14 @@ const Dashboard = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div className="bg-[#E9EDF6] w-full">
-      <div className="w-full h-full max-w-7xl mx-auto">
-        <div className="flex mb-8 mt-8">
-          <div className="relative w-full max-w-2xl flex">
+    <div className="bg-[#E9EDF6] w-full p-8">
+      <div className="w-full max-w-7xl mx-auto">
+        <div className="mb-8 mt-8">
+          <div className="relative w-full flex">
             <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-              <FontAwesomeIcon icon={faSearch} />
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-6 w-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+              </svg>
             </span>
             <input
               type="text"
@@ -69,8 +69,8 @@ const Dashboard = () => {
         </Link>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           {books.map((book) => (
-            <div key={book.title} className="bg-white rounded-md shadow-md overflow-hidden w-[329px] h-[204px]">
-              <img src={book.book_image} alt={book.title} className="w-full h-full object-cover" />
+            <div key={book.title} className="bg-white rounded-md shadow-md overflow-hidden">
+              <img src={book.book_image} alt={book.title} className="w-full h-[204px] object-cover" />
             </div>
           ))}
         </div>
@@ -79,8 +79,8 @@ const Dashboard = () => {
         </Link>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
           {favoriteBooks.slice(0, 3).map((book) => (
-            <div key={book.title} className="bg-white rounded-md shadow-md overflow-hidden w-[329px] h-[204px]">
-              <img src={book.book_image} alt={book.title} className="w-full h-full object-cover" />
+            <div key={book.title} className="bg-white rounded-md shadow-md overflow-hidden">
+              <img src={book.book_image} alt={book.title} className="w-full h-[204px] object-cover" />
             </div>
           ))}
         </div>

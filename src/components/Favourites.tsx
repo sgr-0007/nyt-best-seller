@@ -1,17 +1,34 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
-import { useFavorites } from '../hooks/FavouritesContext'; 
+import { useFavorites } from '../hooks/FavouritesContext';
 
 const Favourites = () => {
   const { favoriteBooks } = useFavorites();
 
-  if (favoriteBooks.length === 0) return <p>No favorites added yet</p>;
+  if (favoriteBooks.length === 0) return <p>No favourites added yet</p>;
 
   return (
     <div className="bg-[#E9EDF6] w-full p-8">
       <div className="w-full max-w-7xl mx-auto">
-        <h2 className="text-2xl font-bold mb-4">Your Favorite Books</h2>
-        <div className="bg-white rounded-lg shadow-md mb-8 overflow-x-auto">
+        <h2 className="text-2xl font-bold mb-4">Favourites</h2>
+        <div className="mb-8">
+          <div className="flex justify-between items-center">
+            <div className="relative w-full flex">
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-6 w-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+              </span>
+              <input
+                type="text"
+                placeholder="Search"
+                className="w-full pl-10 pr-4 py-2 rounded-l-full border-t border-b border-l border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+              />
+              <button className="px-6 py-2 rounded-r-full bg-[#93B4BC] text-white font-semibold">
+                GO
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="bg-white rounded-lg shadow-md overflow-x-auto">
           <table className="table w-full">
             <tbody>
               {favoriteBooks.map((book) => (
@@ -41,23 +58,32 @@ const Favourites = () => {
                   <td>
                     <div className="flex items-center">
                       {[...Array(book.rating)].map((_, i) => (
-                        <FontAwesomeIcon key={i} icon={faStar} className="text-yellow-500" />
+                        <svg xmlns="http://www.w3.org/2000/svg" key={i} fill="currentColor" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="text-yellow-500 h-6 w-6">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+                        </svg>
                       ))}
                       {[...Array(5 - book.rating)].map((_, i) => (
-                        <FontAwesomeIcon key={i} icon={faStar} className="text-gray-300" />
+                        <svg xmlns="http://www.w3.org/2000/svg" key={i} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="text-gray-300 h-6 w-6">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+                        </svg>
                       ))}
                     </div>
                   </td>
                   <td>{book.price} GBP</td>
                   <td>
+                    <button className="text-[#5B5B5B]  hover:underline mr-4">Edit</button>
+                  </td>
+                  <td>
+                    <button className="text-[#5B5B5B] hover:underline mr-4">Delete</button>
+                  </td>
+                  <td>
                     <svg
-                      
                       xmlns="http://www.w3.org/2000/svg"
                       fill="#93B4BC"
                       viewBox="0 0 24 24"
                       strokeWidth={1.5}
                       stroke="currentColor"
-                      className={`h-6 w-6 text-[#93B4BC]`}
+                      className="h-6 w-6 text-[#93B4BC]"
                     >
                       <path
                         strokeLinecap="round"
