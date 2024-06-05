@@ -1,6 +1,8 @@
 
 # NYT Best Seller
 
+https://nyt-best-seller.pages.dev/
+
 A web application to display the New York Times Best Seller list for hardcover fiction. Users can search for books, view details, and manage their favorite books.
 
 ## Features
